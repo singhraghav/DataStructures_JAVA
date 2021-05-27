@@ -1,4 +1,4 @@
-package com.company.stack;
+package com.company.datastrucutures.stack;
 
 public class StackWithArray {
     private int[] data;
