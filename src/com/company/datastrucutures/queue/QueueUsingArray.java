@@ -1,5 +1,7 @@
 package com.company.datastrucutures.queue;
 
+import java.util.Arrays;
+
 public class QueueUsingArray {
     private int data[];
     private int front;
@@ -18,7 +20,8 @@ public class QueueUsingArray {
     }
 
     public void enqueue(int element) throws Exception{
-        if(size == data.length) throw new Exception("queue full");
+        if(size == data.length)
+            doubleCapacity();
         if(this.size == 0)
         {
             front += 1;
@@ -39,5 +42,28 @@ public class QueueUsingArray {
 
     public boolean isEmpty(){
         return size == 0;
+    }
+
+    private void doubleCapacity(){
+        int temp[] = new int[data.length * 2];
+        int index = 0;
+        for(int i = front; i != rear; i = (i + 1) % data.length)
+        {
+            temp[index++] = data[i];
+        }
+        temp[index++] = data[rear];
+        data = temp;
+        front = 0;
+        rear = index - 1;
+    }
+
+    @Override
+    public String toString() {
+        return "QueueUsingArray{" +
+                "data=" + Arrays.toString(data) +
+                ", front=" + front +
+                ", rear=" + rear +
+                ", size=" + size +
+                '}';
     }
 }
