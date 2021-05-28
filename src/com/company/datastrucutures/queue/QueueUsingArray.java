@@ -3,7 +3,7 @@ package com.company.datastrucutures.queue;
 import java.util.Arrays;
 
 public class QueueUsingArray {
-    private int data[];
+    private int[] data;
     private int front;
     private int rear;
     private int size;
@@ -19,7 +19,7 @@ public class QueueUsingArray {
         return this.size;
     }
 
-    public void enqueue(int element) throws Exception{
+    public void enqueue(int element){
         if(size == data.length)
             doubleCapacity();
         if(this.size == 0)
@@ -45,7 +45,7 @@ public class QueueUsingArray {
     }
 
     private void doubleCapacity(){
-        int temp[] = new int[data.length * 2];
+        int[] temp = new int[data.length * 2];
         int index = 0;
         for(int i = front; i != rear; i = (i + 1) % data.length)
         {
