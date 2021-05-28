@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.datastrucutures.linklist.LinkedListOps;
 import com.company.datastrucutures.queue.QueueUsingArray;
 
 public class Main {
@@ -25,7 +26,10 @@ public class Main {
         System.out.println(q);
         //
 //        System.out.println(q);
-
+        LinkedListOps<Integer> l = new LinkedListOps<>();
+        l.addToHead(10);
+        l.addToHead(20);
+        l.printList();
 
     }
 }
