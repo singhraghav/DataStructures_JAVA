@@ -1,5 +1,6 @@
 package com.company.datastrucutures.stack;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,5 +51,25 @@ public class StackOps {
             }
         }
         return false;
+    }
+
+    int[] stockSpan(int[] prices){
+        Stack<Integer> s = new Stack<>();
+        int[] result = new int[prices.length];
+        s.push(0);
+        result[0] = 1;
+        for(int i = 1; i < prices.length; i++)
+        {
+            while (!s.isEmpty() && prices[s.peek()] <= prices[i])
+                s.pop();
+            if(s.isEmpty())
+                result[i] = i + 1;
+            else
+            {
+                result[i] = i - s.peek();
+            }
+            s.push(i);
+        }
+        return result;
     }
 }
