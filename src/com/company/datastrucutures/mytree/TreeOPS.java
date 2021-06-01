@@ -1,5 +1,7 @@
 package com.company.datastrucutures.mytree;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class TreeOPS {
@@ -16,6 +18,49 @@ public class TreeOPS {
         return root;
     }
 
+    public static TreeNode<Integer> levelWiseInput(Scanner s){
+        System.out.println("Enter node data");
+        int rootData = s.nextInt();
+
+        TreeNode<Integer> node = new TreeNode<>(rootData);
+        Queue<TreeNode<Integer>> pendingNodes = new LinkedList<>();
+        pendingNodes.add(node);
+
+        while (!pendingNodes.isEmpty())
+        {
+            TreeNode<Integer> frontNode = pendingNodes.remove();
+            System.out.println("Enter number of children for " + frontNode.data);
+            int numChildren = s.nextInt();
+
+            for(int i = 0 ; i < numChildren; i++)
+            {
+                System.out.println("Enter " + (i+1) + " child of " + frontNode.data);
+                int child = s.nextInt();
+                TreeNode<Integer> childNode = new TreeNode<>(child);
+                frontNode.children.add(childNode);
+                pendingNodes.add(childNode);
+            }
+        }
+        return node;
+    }
+
+    public static void printLevelWise(TreeNode<Integer> root) {
+        Queue<TreeNode<Integer>> pendingNodes = new LinkedList<>();
+        pendingNodes.add(root);
+
+        while (!pendingNodes.isEmpty()){
+            TreeNode<Integer> currentNode = pendingNodes.remove();
+            String s = currentNode.data +" : ";
+            for(int i = 0; i< currentNode.children.size(); i++)
+            {
+                TreeNode<Integer> child = currentNode.children.get(i);
+                pendingNodes.add(child);
+                s = s + child.data + ", ";
+            }
+            System.out.println(s);
+        }
+    }
+
     public static void printTree(TreeNode<Integer> root)
     {
         String s = root.data + " : ";
@@ -30,7 +75,7 @@ public class TreeOPS {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-        TreeNode<Integer> root = takeInput(s);
-        printTree(root);
+        TreeNode<Integer> root = levelWiseInput(s);
+        printLevelWise(root);
     }
 }
