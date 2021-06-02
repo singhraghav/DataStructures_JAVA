@@ -73,9 +73,22 @@ public class TreeOPS {
         }
     }
 
+    public static int numNodes(TreeNode<Integer> root){
+        if(root == null) return 0;
+        int nodeSize = 1;
+        if(root.children.isEmpty())
+            return nodeSize;
+        for(int i = 0; i< root.children.size(); i++)
+        {
+            nodeSize += numNodes(root.children.get(i));
+        }
+        return nodeSize;
+    }
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
         printLevelWise(root);
+        System.out.println("number of nodes in tree " + numNodes(root));
     }
 }
