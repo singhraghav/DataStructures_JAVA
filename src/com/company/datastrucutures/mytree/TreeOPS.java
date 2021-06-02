@@ -85,10 +85,50 @@ public class TreeOPS {
         return nodeSize;
     }
 
+    public static int maxNode(TreeNode<Integer> root){
+        if(root == null) return Integer.MIN_VALUE;
+        int maxDataForThisNode = root.data;
+        for(int i = 0; i< root.children.size(); i++)
+        {
+            int subAnswer = maxNode(root.children.get(i));
+            if(subAnswer > maxDataForThisNode)
+            maxDataForThisNode = subAnswer;
+        }
+        return maxDataForThisNode;
+    }
+
+    public static int height(TreeNode<Integer> root){
+        if(root == null) return 0;
+        int heightOfChildren = 0;
+        for(int i = 0; i< root.children.size(); i++)
+        {
+            int childHeight = height(root.children.get(i));
+            if(childHeight > heightOfChildren)
+                heightOfChildren = childHeight;
+        }
+        return 1 + heightOfChildren;
+    }
+
+    public static int depthOfNode(TreeNode<Integer> root, int nodeData) {
+        if(root == null) return -1;
+        if(root.data == nodeData) return 0;
+        int depthOfChildNode = -1;
+        for(int i = 0 ; i < root.children.size(); i++)
+        {
+           int depthFromCurrentChildNode = depthOfNode(root.children.get(i), nodeData);
+                if(depthFromCurrentChildNode != -1)
+                    depthOfChildNode = 1 + depthFromCurrentChildNode;
+        }
+        return depthOfChildNode;
+    }
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
         printLevelWise(root);
         System.out.println("number of nodes in tree " + numNodes(root));
+        System.out.println("max of nodes in tree " + maxNode(root));
+        System.out.println("height of tree " + height(root));
+        System.out.println("depth of tree " + depthOfNode(root, 5));
     }
 }
