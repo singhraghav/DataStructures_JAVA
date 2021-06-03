@@ -61,8 +61,7 @@ public class TreeOPS {
         }
     }
 
-    public static void printTree(TreeNode<Integer> root)
-    {
+    public static void printTree(TreeNode<Integer> root){
         String s = root.data + " : ";
         for(int i = 0 ; i < root.children.size(); i++){
             s = s + root.children.get(i).data + ", ";
@@ -122,6 +121,39 @@ public class TreeOPS {
         return depthOfChildNode;
     }
 
+    public static void printAllNodesAtKDepth(TreeNode<Integer> root, int k) {
+        if(k < 0) return;
+        if(k == 0)
+        {
+            System.out.println(root.data);
+            return;
+        }
+        for(int i = 0 ; i < root.children.size(); i++)
+        {
+            printAllNodesAtKDepth(root.children.get(i), k-1);
+        }
+    }
+
+    public static int numberOfLeafNodes(TreeNode<Integer> root){
+        if(root == null) return 0;
+        int answer = 0;
+        int numChildren = root.children.size();
+        if(numChildren == 0)
+            return 1;
+        for (int i = 0 ; i < numChildren; i++)
+        {
+            answer += numberOfLeafNodes(root.children.get(i));
+        }
+        return answer;
+    }
+
+    public static void printPostOrderTraversal(TreeNode<Integer> root){
+        if (root == null) return;
+        for (int i = 0 ; i < root.children.size(); i++)
+            printPostOrderTraversal(root.children.get(i));
+        System.out.println(root.data);
+    }
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
@@ -129,6 +161,9 @@ public class TreeOPS {
         System.out.println("number of nodes in tree " + numNodes(root));
         System.out.println("max of nodes in tree " + maxNode(root));
         System.out.println("height of tree " + height(root));
-        System.out.println("depth of tree " + depthOfNode(root, 5));
+        System.out.println("depth of tree " + depthOfNode(root, 5 ));
+        printAllNodesAtKDepth(root, 3);
+        System.out.println("No of leaf nodes in the tree " + numberOfLeafNodes(root));
+        printPostOrderTraversal(root);
     }
 }
