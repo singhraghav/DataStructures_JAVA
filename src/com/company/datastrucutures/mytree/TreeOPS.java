@@ -168,8 +168,7 @@ public class TreeOPS {
         return  childrenNodesGreaterThanX;
     }
 
-    public static void nodeWithMaxDataAndChildrenSum(TreeNode<Integer> root)
-    {
+    public static void nodeWithMaxDataAndChildrenSum(TreeNode<Integer> root){
         if(root == null) return;
         int currSum = root.data;
         for (int i = 0; i < root.children.size(); i++)
@@ -184,8 +183,7 @@ public class TreeOPS {
         }
     }
 
-    public static boolean areTheTreesStructurallyIdentical(TreeNode<Integer> tree1, TreeNode<Integer> tree2)
-    {
+    public static boolean areTheTreesStructurallyIdentical(TreeNode<Integer> tree1, TreeNode<Integer> tree2){
         if (!tree1.data.equals(tree2.data))
             return false;
         int tree1ChildrenSize = tree1.children.size();
@@ -200,10 +198,24 @@ public class TreeOPS {
         return areChildrenIdentical;
     }
 
+    public static int secondLargestThanN(TreeNode<Integer> tree, int N, int currentMax){
+        if (tree == null) return currentMax;
+        currentMax = (tree.data > N) ? tree.data : currentMax;
+        for (int i =0; i < tree.children.size(); i++)
+        {
+            int currChildNextGreaterValueThanN = secondLargestThanN(tree.children.get(i), N, currentMax);
+            if (currChildNextGreaterValueThanN > N && currChildNextGreaterValueThanN < currentMax)
+                currentMax = currChildNextGreaterValueThanN;
+        }
+        return currentMax;
+    }
+
     public static void main(String[] args) {
+        //tree data used for testing
+        //4 2 5 6 2 7 8 2 9 10 0 1 12 0 1 11 0 0
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
-        TreeNode<Integer> root2 = levelWiseInput(s);
+//        TreeNode<Integer> root2 = levelWiseInput(s);
         printLevelWise(root);
         System.out.println("number of nodes in tree " + numNodes(root));
         System.out.println("max of nodes in tree " + maxNode(root));
@@ -214,6 +226,7 @@ public class TreeOPS {
         printPostOrderTraversal(root);
         System.out.println("Number of nodes greater than x " + numberOfNodesGreaterThanX(root, 9));
 //        System.out.println("Max node and child sum " + nodeWithMaxSum.data);
-        System.out.println("Are two trees identical " + areTheTreesStructurallyIdentical(root, root2));
+//        System.out.println("Are two trees identical " + areTheTreesStructurallyIdentical(root, root2));
+        System.out.println("Next largest value than N " + secondLargestThanN(root, 8, Integer.MAX_VALUE));
     }
 }
