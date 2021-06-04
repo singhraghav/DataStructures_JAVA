@@ -184,9 +184,26 @@ public class TreeOPS {
         }
     }
 
+    public static boolean areTheTreesStructurallyIdentical(TreeNode<Integer> tree1, TreeNode<Integer> tree2)
+    {
+        if (!tree1.data.equals(tree2.data))
+            return false;
+        int tree1ChildrenSize = tree1.children.size();
+        int tree2ChildrenSize = tree2.children.size();
+        if (tree1ChildrenSize != tree2ChildrenSize)
+            return false;
+        boolean areChildrenIdentical = true;
+        for (int i = 0 ; i < tree1ChildrenSize; i++)
+        {
+            areChildrenIdentical = areTheTreesStructurallyIdentical(tree1.children.get(i), tree2.children.get(i));
+        }
+        return areChildrenIdentical;
+    }
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
+        TreeNode<Integer> root2 = levelWiseInput(s);
         printLevelWise(root);
         System.out.println("number of nodes in tree " + numNodes(root));
         System.out.println("max of nodes in tree " + maxNode(root));
@@ -196,6 +213,7 @@ public class TreeOPS {
         System.out.println("No of leaf nodes in the tree " + numberOfLeafNodes(root));
         printPostOrderTraversal(root);
         System.out.println("Number of nodes greater than x " + numberOfNodesGreaterThanX(root, 9));
-        System.out.println("Max node and child sum " + nodeWithMaxSum.data);
+//        System.out.println("Max node and child sum " + nodeWithMaxSum.data);
+        System.out.println("Are two trees identical " + areTheTreesStructurallyIdentical(root, root2));
     }
 }
