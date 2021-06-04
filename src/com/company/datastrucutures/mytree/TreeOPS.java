@@ -5,6 +5,10 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class TreeOPS {
+
+    static int maxSum = Integer.MIN_VALUE;
+    static TreeNode<Integer> nodeWithMaxSum = null;
+
     public static TreeNode<Integer> takeInput(Scanner s){
         int n;
         n = s.nextInt();
@@ -154,6 +158,32 @@ public class TreeOPS {
         System.out.println(root.data);
     }
 
+    public static int numberOfNodesGreaterThanX(TreeNode<Integer> root, int x){
+        if (root == null) return 0;
+        int childrenNodesGreaterThanX = (root.data > x) ? 1 : 0;
+        for(int i = 0; i < root.children.size(); i++)
+        {
+            childrenNodesGreaterThanX += numberOfNodesGreaterThanX(root.children.get(i), x);
+        }
+        return  childrenNodesGreaterThanX;
+    }
+
+    public static void nodeWithMaxDataAndChildrenSum(TreeNode<Integer> root)
+    {
+        if(root == null) return;
+        int currSum = root.data;
+        for (int i = 0; i < root.children.size(); i++)
+        {
+            currSum += root.children.get(i).data;
+            nodeWithMaxDataAndChildrenSum(root.children.get(i));
+        }
+        if (currSum > maxSum)
+        {
+            maxSum = currSum;
+            nodeWithMaxSum = root;
+        }
+    }
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         TreeNode<Integer> root = levelWiseInput(s);
@@ -165,5 +195,7 @@ public class TreeOPS {
         printAllNodesAtKDepth(root, 3);
         System.out.println("No of leaf nodes in the tree " + numberOfLeafNodes(root));
         printPostOrderTraversal(root);
+        System.out.println("Number of nodes greater than x " + numberOfNodesGreaterThanX(root, 9));
+        System.out.println("Max node and child sum " + nodeWithMaxSum.data);
     }
 }
