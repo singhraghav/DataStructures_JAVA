@@ -210,6 +210,15 @@ public class TreeOPS {
         return currentMax;
     }
 
+    public static void replaceNodesDataWithNodeDepth(TreeNode<Integer> root, int currentDepth) {
+        if(root == null) return;
+        root.data = currentDepth;
+        for(int i = 0; i < root.children.size(); i++)
+        {
+            replaceNodesDataWithNodeDepth(root.children.get(i), currentDepth + 1);
+        }
+    }
+
     public static void main(String[] args) {
         //tree data used for testing
         //4 2 5 6 2 7 8 2 9 10 0 1 12 0 1 11 0 0
@@ -228,5 +237,7 @@ public class TreeOPS {
 //        System.out.println("Max node and child sum " + nodeWithMaxSum.data);
 //        System.out.println("Are two trees identical " + areTheTreesStructurallyIdentical(root, root2));
         System.out.println("Next largest value than N " + secondLargestThanN(root, 8, Integer.MAX_VALUE));
+        replaceNodesDataWithNodeDepth(root, 0);
+        printLevelWise(root);
     }
 }
