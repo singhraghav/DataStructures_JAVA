@@ -66,9 +66,45 @@ public class BinaryTreeOps {
         printRecursive(root.right);
     }
 
+    public static void printLevelWise(BinaryNode<Integer> root) {
+        if (root == null) return;
+        Queue<BinaryNode<Integer>> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            BinaryNode<Integer> currentElement = q.remove();
+            String toBePrinted = currentElement.data + " : ";
+            if(currentElement.left != null){
+                toBePrinted += "L: " + currentElement.left.data + ", ";
+                q.add(currentElement.left);
+            }
+            if(currentElement.right != null){
+                toBePrinted += "R: " + currentElement.right.data;
+                q.add(currentElement.right);
+            }
+            System.out.println(toBePrinted);
+        }
+    }
+
+    public static int numNodes(BinaryNode<Integer> root){
+        if (root == null) return 0;
+        return 1 + numNodes(root.left) + numNodes(root.right);
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
+    //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
+        /*
+                    4
+                   / \
+                  5   6
+                 / \  /
+                7   8 9
+               /
+              10
+        */
     BinaryNode<Integer> root = takeLevelWiseInput(scan);
-    printRecursive(root);
+    printLevelWise(root);
+    System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
     }
 }
