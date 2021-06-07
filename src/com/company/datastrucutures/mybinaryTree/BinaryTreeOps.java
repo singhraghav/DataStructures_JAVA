@@ -1,5 +1,7 @@
 package com.company.datastrucutures.mybinaryTree;
 
+import com.company.datastrucutures.Pair;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -101,6 +103,21 @@ public class BinaryTreeOps {
         return Math.max(option1, Math.max(option2, option3));
     }
 
+    public static Pair<Integer, Integer> optimisedDiameter(BinaryNode<Integer> root) {
+        if (root == null) return  new Pair<>(0, 0);
+        Pair<Integer, Integer> left = optimisedDiameter(root.left);
+        Pair<Integer, Integer> right = optimisedDiameter(root.right);
+
+        int height = 1 + Math.max(left.first, right.first);
+        int option1 = left.first + right.first;
+        int option2 = left.second;
+        int option3 = right.second;
+
+        int diameter = Math.max(option1, Math.max(option2, option3));
+//        System.out.println("height: " + height +" diameter: " + diameter);
+        return new Pair<>(height, diameter);
+    }
+
     public static int height(BinaryNode<Integer> root) {
         if (root == null) return 0;
         else return 1 + Math.max(height(root.left), height(root.right));
@@ -121,6 +138,6 @@ public class BinaryTreeOps {
     BinaryNode<Integer> root = takeLevelWiseInput(scan);
     printLevelWise(root);
     System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
-    System.out.println("Diameter of tree is " + diameter(root)); // 5
+    System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
     }
 }
