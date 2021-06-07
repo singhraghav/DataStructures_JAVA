@@ -91,6 +91,21 @@ public class BinaryTreeOps {
         return 1 + numNodes(root.left) + numNodes(root.right);
     }
 
+    public static int diameter(BinaryNode<Integer> root){
+        if(root == null) return 0;
+
+        int option1 = height(root.left) + height(root.right);
+        int option2 = diameter(root.left);
+        int option3 = diameter(root.right);
+
+        return Math.max(option1, Math.max(option2, option3));
+    }
+
+    public static int height(BinaryNode<Integer> root) {
+        if (root == null) return 0;
+        else return 1 + Math.max(height(root.left), height(root.right));
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
@@ -106,5 +121,6 @@ public class BinaryTreeOps {
     BinaryNode<Integer> root = takeLevelWiseInput(scan);
     printLevelWise(root);
     System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
+    System.out.println("Diameter of tree is " + diameter(root)); // 5
     }
 }
