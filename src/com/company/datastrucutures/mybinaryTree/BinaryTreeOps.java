@@ -123,6 +123,13 @@ public class BinaryTreeOps {
         else return 1 + Math.max(height(root.left), height(root.right));
     }
 
+    public static void inOrderTraversal(BinaryNode<Integer> root) {
+        if(root == null) return;
+        inOrderTraversal(root.left);
+        System.out.println(root.data);
+        inOrderTraversal(root.right);
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
@@ -139,5 +146,7 @@ public class BinaryTreeOps {
     printLevelWise(root);
     System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
     System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
+    System.out.println("Inorder Traversal ");
+    inOrderTraversal(root); //10 7 5 8 4 9 6
     }
 }
