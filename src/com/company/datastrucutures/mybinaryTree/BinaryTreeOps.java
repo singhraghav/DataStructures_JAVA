@@ -130,6 +130,20 @@ public class BinaryTreeOps {
         inOrderTraversal(root.right);
     }
 
+    public static void preOrderTraversal(BinaryNode<Integer> root){
+        if (root == null) return;
+        System.out.println(root.data);
+        preOrderTraversal(root.left);
+        preOrderTraversal(root.right);
+    }
+
+    public static void postOrderTraversal(BinaryNode<Integer> root){
+        if (root == null) return;
+        postOrderTraversal(root.left);
+        postOrderTraversal(root.right);
+        System.out.println(root.data);
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
@@ -148,5 +162,9 @@ public class BinaryTreeOps {
     System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
     System.out.println("Inorder Traversal ");
     inOrderTraversal(root); //10 7 5 8 4 9 6
+    System.out.println("Pre Order Traversal ");
+    preOrderTraversal(root); //4 5 7 10 8 6 9
+    System.out.println("Post Order Traversal ");
+    postOrderTraversal(root); //10 7 8 5 9 6 4
     }
 }
