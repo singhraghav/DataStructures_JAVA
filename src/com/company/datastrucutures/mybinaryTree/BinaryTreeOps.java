@@ -144,6 +144,43 @@ public class BinaryTreeOps {
         System.out.println(root.data);
     }
 
+    public static BinaryNode<Integer> constructTreeUsingInorderAndPreOrderTraversal
+            (int[] inorder, int[] preorder, int inorderStart, int inorderEnd, int preorderStart, int preorderEnd) {
+        if (inorderStart > inorderEnd) return null;
+
+        BinaryNode<Integer> root = new BinaryNode<>(preorder[preorderStart]);
+        if (inorderStart == inorderEnd) return root;
+        int rootIndexInInOrder = -1;
+        for(int i = inorderStart; i <= inorderEnd; i++)
+        {
+            if(inorder[i] == root.data)
+            {
+             rootIndexInInOrder = i;
+             break;
+            }
+        }
+
+        if (rootIndexInInOrder == -1) return null;
+
+       int inorderStartForLeftSubtree = inorderStart;
+       int inorderEndForLeftSubTree = rootIndexInInOrder - 1;
+
+       int inorderStartForRightSubTree = rootIndexInInOrder + 1;
+       int inorderEndForRightSubTree = inorderEnd;
+
+       int preorderStartForLeftSubtree = preorderStart + 1;
+       int preorderEndForLeftSubtree = inorderEndForLeftSubTree - inorderStartForLeftSubtree + preorderStartForLeftSubtree;
+
+       int preorderStartForRightSubtree = preorderEndForLeftSubtree + 1;
+       int preorderEndForRightSubtree = preorderEnd;
+
+       root.left =
+               constructTreeUsingInorderAndPreOrderTraversal(inorder, preorder, inorderStartForLeftSubtree, inorderEndForLeftSubTree, preorderStartForLeftSubtree, preorderEndForLeftSubtree);
+       root.right =
+               constructTreeUsingInorderAndPreOrderTraversal(inorder, preorder, inorderStartForRightSubTree, inorderEndForRightSubTree, preorderStartForRightSubtree, preorderEndForRightSubtree);
+       return root;
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
@@ -156,15 +193,20 @@ public class BinaryTreeOps {
                /
               10
         */
-    BinaryNode<Integer> root = takeLevelWiseInput(scan);
-    printLevelWise(root);
-    System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
-    System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
-    System.out.println("Inorder Traversal ");
-    inOrderTraversal(root); //10 7 5 8 4 9 6
-    System.out.println("Pre Order Traversal ");
-    preOrderTraversal(root); //4 5 7 10 8 6 9
-    System.out.println("Post Order Traversal ");
-    postOrderTraversal(root); //10 7 8 5 9 6 4
+//    BinaryNode<Integer> root = takeLevelWiseInput(scan);
+//    printLevelWise(root);
+//    System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
+//    System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
+//    System.out.println("Inorder Traversal ");
+//    inOrderTraversal(root); //10 7 5 8 4 9 6
+//    System.out.println("Pre Order Traversal ");
+//    preOrderTraversal(root); //4 5 7 10 8 6 9
+//    System.out.println("Post Order Traversal ");
+//    postOrderTraversal(root); //10 7 8 5 9 6 4
+        int[] inorder = {10, 7, 5, 8, 4, 9, 6};
+        int[] preorder = {4, 5, 7, 10, 8, 6, 9};
+        BinaryNode<Integer> tree = constructTreeUsingInorderAndPreOrderTraversal(inorder, preorder, 0, inorder.length - 1, 0, preorder.length - 1);
+        System.out.println("Constructed Tree");
+        printLevelWise(tree);
     }
 }
