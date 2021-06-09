@@ -181,6 +181,14 @@ public class BinaryTreeOps {
        return root;
     }
 
+    public static int sumOfAllNodes(BinaryNode<Integer> root) {
+        if(root == null) return 0;
+        int leftSubtreeSum = sumOfAllNodes(root.left);
+        int rightSubtreeSum = sumOfAllNodes(root.right);
+
+        return root.data + leftSubtreeSum + rightSubtreeSum;
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
@@ -193,7 +201,7 @@ public class BinaryTreeOps {
                /
               10
         */
-//    BinaryNode<Integer> root = takeLevelWiseInput(scan);
+    BinaryNode<Integer> root = takeLevelWiseInput(scan);
 //    printLevelWise(root);
 //    System.out.println("Number of nodes in the tree are " + numNodes(root)); // 7
 //    System.out.println("Diameter of tree is " + optimisedDiameter(root)); // 5
@@ -208,5 +216,7 @@ public class BinaryTreeOps {
         BinaryNode<Integer> tree = constructTreeUsingInorderAndPreOrderTraversal(inorder, preorder, 0, inorder.length - 1, 0, preorder.length - 1);
         System.out.println("Constructed Tree");
         printLevelWise(tree);
+
+        System.out.println("Sum of all nodes in the tree " + sumOfAllNodes(root));
     }
 }
