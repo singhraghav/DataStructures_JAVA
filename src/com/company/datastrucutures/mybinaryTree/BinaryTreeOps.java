@@ -189,6 +189,15 @@ public class BinaryTreeOps {
         return root.data + leftSubtreeSum + rightSubtreeSum;
     }
 
+    public static boolean isBalanced(BinaryNode<Integer> root){
+        if (root == null) return true;
+
+        int lh = height(root.left);
+        int rh = height(root.right);
+
+        return Math.abs(lh - rh) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
+
     public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     //4 5 6 7 8 9 -1 10 -1 -1 -1 -1 -1 -1 -1
