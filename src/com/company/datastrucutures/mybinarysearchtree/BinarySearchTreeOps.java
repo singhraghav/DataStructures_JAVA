@@ -2,6 +2,7 @@ package com.company.datastrucutures.mybinarysearchtree;
 
 import com.company.datastrucutures.mybinaryTree.BinaryNode;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import static com.company.datastrucutures.mybinaryTree.BinaryTreeOps.printLevelWise;
@@ -48,6 +49,7 @@ public class BinarySearchTreeOps {
             return new Triplet<>(Integer.MAX_VALUE, Integer.MIN_VALUE, true);
         Triplet<Integer, Integer, Boolean> leftTree = optimisedIsBst(root.left);
         Triplet<Integer, Integer, Boolean> rightTree = optimisedIsBst(root.right);
+
         Integer min = Math.min(root.data, Math.min(leftTree.first, rightTree.first));
         Integer max = Math.max(root.data, Math.max(leftTree.second, rightTree.second));
         if (root.data > leftTree.second && root.data <= rightTree.first && leftTree.third && rightTree.third){
@@ -66,6 +68,32 @@ public class BinarySearchTreeOps {
         if (root == null) return Integer.MAX_VALUE;
         return Math.min(root.data, Math.min(minimum(root.left), minimum(root.right)));
     }
+
+    public static BinaryNode<Integer> constructTree(int[] arr, int start, int end) {
+        if(start > end) return null;
+        int mid = (start + end) / 2 ;
+        BinaryNode<Integer> root = new BinaryNode<>(arr[mid]);
+        root.left = constructTree(arr, start, mid -1);
+        root.right = constructTree(arr, mid+1, end);
+        return root;
+    }
+
+    public static LinkedList<Integer> constructSortedList(BinaryNode<Integer> root){
+        if (root == null) return null;
+        LinkedList<Integer> left = constructSortedList(root.left);
+        LinkedList<Integer> right = constructSortedList(root.right);
+        if (left == null)
+        {
+            left = new LinkedList<Integer>();
+            left.add(root.data);
+        }
+        else
+            left.add(root.data);
+        if (right != null)
+            left.addAll(right);
+        return left;
+    }
+
     public static void main(String[] args) {
         //10 5 15 2 8 12 18 1 -1 -1 -1 11 13 -1 20 -1 -1 -1 -1 -1 -1 -1 -1
          /*
@@ -86,5 +114,11 @@ public class BinarySearchTreeOps {
         System.out.println("All elements in range 1 to 13 ");
         printInRange(root,1, 13);
         System.out.println("is the given tree bst " + optimisedIsBst(root).third);
+        System.out.println("Construct new Tree");
+        int[] arr = {1,2,5,8,10,11,12,13,15,18,20};
+        BinaryNode<Integer> constructedTree = constructTree(arr, 0, arr.length - 1);
+        printLevelWise(constructedTree);
+
+        System.out.println(constructSortedList(constructedTree));
     }
 }
