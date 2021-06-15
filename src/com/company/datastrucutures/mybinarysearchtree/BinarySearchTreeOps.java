@@ -94,6 +94,28 @@ public class BinarySearchTreeOps {
         return left;
     }
 
+    public static LinkedList<Integer> pathToData(BinaryNode<Integer> root, int data) {
+        if (root == null) return null;
+        if(root.data > data){
+            LinkedList<Integer> answer = pathToData(root.left, data);
+            if (answer == null) return answer;
+            answer.add(0, root.data);
+            return answer;
+        }
+        else if(root.data < data)
+        {
+            LinkedList<Integer> answer = pathToData(root.right, data);
+            if (answer == null) return answer;
+            answer.add(0, root.data);
+            return answer;
+        }
+        else
+        {
+            LinkedList<Integer> answer = new LinkedList<>();
+            answer.add(root.data);
+            return answer;
+        }
+    }
     public static void main(String[] args) {
         //10 5 15 2 8 12 18 1 -1 -1 -1 11 13 -1 20 -1 -1 -1 -1 -1 -1 -1 -1
          /*
@@ -120,5 +142,6 @@ public class BinarySearchTreeOps {
         printLevelWise(constructedTree);
 
         System.out.println(constructSortedList(constructedTree));
+        System.out.println(pathToData(root, 8));
     }
 }
