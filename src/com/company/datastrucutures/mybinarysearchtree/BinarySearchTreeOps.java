@@ -9,6 +9,54 @@ import static com.company.datastrucutures.mybinaryTree.BinaryTreeOps.printLevelW
 import static com.company.datastrucutures.mybinaryTree.BinaryTreeOps.takeLevelWiseInput;
 
 public class BinarySearchTreeOps {
+    public static BinaryNode<Integer> insert(BinaryNode<Integer> root, int element) {
+        if (root == null) return new BinaryNode<>(element);
+        if (element < root.data)
+        {
+            root.left = insert(root.left, element);
+            return root;
+        }
+        else if (element > root.data)
+        {
+            root.right = insert(root.right, element);
+            return root;
+        }
+        else
+            return root;
+    }
+
+    private static BinaryNode<Integer> leftLeaf(BinaryNode<Integer> root) {
+        if (root == null) return null;
+        if (root.left == null) return root;
+        return leftLeaf(root.left);
+    }
+
+    public static BinaryNode<Integer> delete(BinaryNode<Integer> root, int element) {
+        if (root == null) return null;
+        if (element < root.data)
+        {
+            root.left = delete(root.left, element);
+            return root;
+        }
+        else if (element > root.data)
+        {
+            root.right = delete(root.right, element);
+            return root;
+        }
+        else
+        {   if (root.left == null && root.right == null) return null;
+            else if (root.right == null) return root.left;
+            else if (root.left == null) return root.right;
+            else {
+               BinaryNode<Integer> leftLeafOfRightSubTree = leftLeaf(root.right);
+               BinaryNode<Integer> newRightTree = delete(root.right, leftLeafOfRightSubTree.data);
+               leftLeafOfRightSubTree.left = root.left;
+               leftLeafOfRightSubTree.right = newRightTree;
+               return leftLeafOfRightSubTree;
+        }
+        }
+    }
+
     public static boolean contains(BinaryNode<Integer> root, int element){
         if (root == null) return false;
         if (element == root.data) return true;
@@ -116,6 +164,7 @@ public class BinarySearchTreeOps {
             return answer;
         }
     }
+
     public static void main(String[] args) {
         //10 5 15 2 8 12 18 1 -1 -1 -1 11 13 -1 20 -1 -1 -1 -1 -1 -1 -1 -1
          /*
@@ -143,5 +192,11 @@ public class BinarySearchTreeOps {
 
         System.out.println(constructSortedList(constructedTree));
         System.out.println(pathToData(root, 8));
+
+        BinaryNode<Integer> updatedTree = delete(root, 10);
+        printLevelWise(updatedTree);
+        System.out.println("///////////////////////////////////////");
+        BinaryNode<Integer> updatedTree1 = insert(root, 10);
+        printLevelWise(updatedTree1);
     }
 }
