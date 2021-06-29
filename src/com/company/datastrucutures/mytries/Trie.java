@@ -1,5 +1,8 @@
 package com.company.datastrucutures.mytries;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Trie {
 
     private TrieNode root;
@@ -66,5 +69,36 @@ public class Trie {
         if (child == null)
             return false;
         return search(child, s.substring(1));
+    }
+
+    public List<String> startsWith(String word) {
+        return startsWithHelper(root, word, "");
+    }
+
+    private List<String> startsWithHelper(TrieNode root, String start, String currentWord) {
+     if(start.length() == 0) {
+         return findAll(root, currentWord);
+     }
+     int childIndex = start.charAt(0) - 'a';
+     TrieNode child = root.children[childIndex];
+     if(child == null)
+         return new LinkedList<>();
+
+     return startsWithHelper(child, start.substring(1), currentWord + start.charAt(0));
+    }
+
+    private LinkedList<String> findAll(TrieNode root, String currentWord) {
+        LinkedList<String> result = new LinkedList<>();
+        if (root.isTerminating) result.add(currentWord);
+
+        for(int i = 0; i < root.children.length; i++)
+        {
+            TrieNode child = root.children[i];
+            if(child != null) {
+                LinkedList<String> subResult = findAll(child, currentWord + child.data);
+                result.addAll(subResult);
+            }
+        }
+        return result;
     }
 }
