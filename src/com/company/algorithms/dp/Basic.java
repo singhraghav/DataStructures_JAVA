@@ -1,5 +1,8 @@
 package com.company.algorithms.dp;
 
+import java.sql.Array;
+import java.util.Arrays;
+
 public class Basic {
 
     public static int fib(int n) {
@@ -77,22 +80,65 @@ public class Basic {
 
         return storage[n];
     }
-    public static void main(String[] args) {
-        long start3 = System.currentTimeMillis();
-        System.out.println(reduceToOneDP(1000));
-        long end3 = System.currentTimeMillis();
-        System.out.println("Time taken by dp " + (end3 - start3)/1000);
 
-        int[] arr = new int[1001];
-        for(int i = 0 ; i < 1001; i++)
-            arr[i] = -1;
-        long start1 = System.currentTimeMillis();
-        System.out.println(reduceToOneM(1000, arr));
-        long end1 = System.currentTimeMillis();
-        System.out.println("Time taken by memo " + (end1 - start1)/1000);
-        long start2 = System.currentTimeMillis();
-        System.out.println(reduceToOne(1000));
-        long end2 = System.currentTimeMillis();
-        System.out.println("Time taken by bruteForce " + (end2 - start2)/1000);
+    public static int minimumSquaresToGetToOne(int n, int[] storage) {
+        if(n == 1) {
+            storage[n] = 1;
+            return storage[n];
+        }
+        if(n == 0) {
+            storage[n] = 0;
+            return storage[n];
+        }
+        if(storage[n] != -1)
+            return storage[n];
+
+        int min = Integer.MAX_VALUE;
+
+        for(int i = 1; i * i <= n; i++)
+        {
+            int subAnswer =  minimumSquaresToGetToOne(n - (i * i), storage);
+            if(subAnswer != Integer.MAX_VALUE)
+            {
+                int count = 1 + subAnswer;
+                System.out.println("Count for " + n + " when i " + i + " --> " + count);
+                if(count < min)
+                    min = count;
+            }
+        }
+
+        System.out.println("Returning min " + min +" for n " + n);
+        storage[n] = min;
+        return storage[n];
+    }
+
+    public static int countBst(int h){
+        if(h == 0 || h == 1) return 1;
+        int x = countBst(h-1);
+        int y = countBst(h-2);
+
+        return x * x + 2 * x * y;
+    }
+
+    public static void main(String[] args) {
+//        long start3 = System.currentTimeMillis();
+//        System.out.println(reduceToOneDP(1000));
+//        long end3 = System.currentTimeMillis();
+//        System.out.println("Time taken by dp " + (end3 - start3)/1000);
+//
+//        int[] arr = new int[1001];
+//        for(int i = 0 ; i < 1001; i++)
+//            arr[i] = -1;
+//        long start1 = System.currentTimeMillis();
+//        System.out.println(reduceToOneM(1000, arr));
+//        long end1 = System.currentTimeMillis();
+//        System.out.println("Time taken by memo " + (end1 - start1)/1000);
+//        long start2 = System.currentTimeMillis();
+//        System.out.println(reduceToOne(1000));
+//        long end2 = System.currentTimeMillis();
+//        System.out.println("Time taken by bruteForce " + (end2 - start2)/1000);
+        int[] arr = new int[102];
+        Arrays.fill(arr, -1);
+        System.out.println(minimumSquaresToGetToOne(101, arr));
     }
 }
