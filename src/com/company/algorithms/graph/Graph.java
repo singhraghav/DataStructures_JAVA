@@ -66,6 +66,79 @@ public class Graph {
         return false;
     }
 
+    public static LinkedList<Integer> dfsPath(int[][] edges, int sv, int ev){
+        boolean[] visited = new boolean[edges.length];
+        return  dfsPath(edges, sv, ev, visited);
+    }
+
+    public static LinkedList<Integer> dfsPath(int[][] edges, int sv, int ev, boolean[] visited){
+        visited[sv] = true;
+        LinkedList<Integer> pathFromSv = new LinkedList<>();
+        if(sv == ev)
+        {
+            pathFromSv.add(0, sv);
+            return pathFromSv;
+        }
+
+        for(int i =0; i < edges.length; i++)
+        {
+            if(edges[sv][i] == 1 && !visited[i])
+            {
+                LinkedList<Integer> pathFromI = dfsPath(edges, i, ev, visited);
+                if(!pathFromI.isEmpty()){
+                    pathFromI.add(0, sv);
+                    return pathFromI;
+                }
+            }
+        }
+
+        return pathFromSv;
+    }
+
+    public static LinkedList<Integer> bfsPath(int[][] edges, int sv, int ev){
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] visited = new boolean[edges.length];
+        q.add(sv);
+        visited[sv] = true;
+        boolean evPresent = false;
+        Map<Integer, Integer> pathBuilder = new HashMap<>();
+
+        while (!q.isEmpty())
+        {
+            int cv = q.remove();
+
+            for(int i = 0; i < edges.length; i++)
+            {
+                if (edges[cv][i] == 1 && !visited[i])
+                {
+                    q.add(i);
+                    pathBuilder.put(i, cv);
+                    visited[i] = true;
+                    if (i == ev)
+                    {
+                        evPresent = true;
+                        break;
+                    }
+                }
+            }
+            if (evPresent)
+                break;
+        }
+
+        if (evPresent){
+            LinkedList<Integer> path = new LinkedList<>();
+            System.out.println(pathBuilder);
+            while ( ev != sv)
+            {
+                path.add(ev);
+                ev = pathBuilder.get(ev);
+            }
+            path.add(sv);
+            return path;
+        }
+        return new LinkedList<Integer>();
+    }
+
     public static void main(String[] args) {
         int n;
         int e;
@@ -100,5 +173,9 @@ public class Graph {
         *  5 6
         *
         * */
+
+        System.out.println(dfsPath(edges, 0,3));
+        System.out.println("///BFS///");
+        System.out.println(bfsPath(edges,0,3));
     }
 }
