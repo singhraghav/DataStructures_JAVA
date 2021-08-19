@@ -168,6 +168,38 @@ public class Main {
         System.out.println(minJumps(arr));
     }
 
+    public static void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+        // 1 7 6 5 3 4 2 1
+        while(nums[i] >= nums[i+1])
+            i--;
+        if(i >= 0)
+        {
+          int j = nums.length - 1;
+          while(nums[i] >= nums[j])
+              j--;
+          swap(nums, i, j); // 1 7 6 5 4 3 2 1
+        }
+        reverse(nums, i + 1);
+    }
+
+    public static void reverse(int[] arr, int start)
+    {
+        int i = start, j = arr.length - 1;
+        while (i < j)
+        {
+            swap(arr, i, j);
+            i++;
+            j--;
+        }
+    }
+
+    public static void swap(int[] arr, int i, int j)
+    {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 }
 
 class MaxComparator implements Comparator<Integer> {
