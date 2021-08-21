@@ -113,6 +113,57 @@ public class Main {
         printAllSubsets(arr, output + arr[i], i + 1);
         printAllSubsets(arr, output, i + 1);
     }
+    static int totalPaths = 0;
+    public static void nPaths(int i, int j, int n, int m, String osf) {
+        if(i == n - 1 && j == m - 1) {
+            totalPaths += 1;
+            System.out.println(osf);
+            return;
+        }
+        if(i < 0 || i >= n || j < 0 || j >= m)
+            return;
+        nPaths(i, j + 1, n, m, osf + "R");
+        nPaths(i + 1, j, n, m, osf + "D");
+        nPaths(i + 1, j + 1, n, m, osf + "T");
+    }
+    static int totalJumps = 0;
+    public static void jumpP(int i, int n, String osf) {
+        if(i == n-1){
+            totalJumps += 1;
+            System.out.println(osf);
+            return;
+        }
+        if(i >= n)
+            return;
+        for(int j = 1; j <= 6; j++) {
+            jumpP(i + j, n, osf + j);
+        }
+    }
+
+    public static void printLexN(int n, int i)
+    {
+        if(i > n)
+            return;
+        System.out.println(i);
+        for(int j = (i == 0) ? 1:0; j<= 9; j++) {
+            printLexN(n, 10*i+j);
+        }
+
+    }
+
+    public static void printAllPermutation(String a, String osf) {
+        if(a.length() == 0) {
+            System.out.println(osf);
+            return;
+        }
+
+        for(int i =0; i < a.length(); i++) {
+            String toAppend = a.charAt(i) + "";
+            String append = (i + 1 >= a.length()) ? "": a.substring(i+1);
+            String leftover = a.substring(0, i) + append;
+            printAllPermutation(leftover, osf + toAppend);
+        }
+    }
 
     public static void main(String[] args) {
 //        System.out.println(numOfBinaryStringWithNonConsecutiveOnes(5));
@@ -122,6 +173,11 @@ public class Main {
 //        pattern3(6);
 //        pattern4(6, 0);
         int[] arr ={1, 2, 3};
-        printAllSubsets(arr, "", 0);
+//        printAllSubsets(arr, "", 0);
+//        nPaths(0, 0, 3, 3, "");
+//        jumpP(0, 4, "");
+//        System.out.println(totalJumps);
+//        printLexN(100, 0);
+        printAllPermutation("ABC", "");
     }
 }
