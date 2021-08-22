@@ -165,6 +165,23 @@ public class Main {
         }
     }
 
+    public static int powerSum(int X, int N) {
+        // Write your code here
+        return powerSumH(X, N, 1);
+    }
+
+    public static int powerSumH(int X, int N, int start) {
+        // Write your code here
+        if(X == 0)
+            return 1;
+        if(X < 0)
+            return 0;
+        int leftOver = X - (int) Math.pow(start, N);
+        int sol1 = powerSumH(leftOver, N, start + 1);
+        int sol2 = powerSumH(X, N, start + 1);
+        return sol1 + sol2;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(numOfBinaryStringWithNonConsecutiveOnes(5));
 //        printStringWithNonConsecutiveOnes(5, "");
@@ -175,9 +192,10 @@ public class Main {
         int[] arr ={1, 2, 3};
 //        printAllSubsets(arr, "", 0);
 //        nPaths(0, 0, 3, 3, "");
-//        jumpP(0, 4, "");
-//        System.out.println(totalJumps);
+        jumpP(0, 5, "");
+        System.out.println(totalJumps);
 //        printLexN(100, 0);
-        printAllPermutation("ABC", "");
+//        printAllPermutation("ABC", "");
+//        System.out.println(powerSum(10, 2));
     }
 }
