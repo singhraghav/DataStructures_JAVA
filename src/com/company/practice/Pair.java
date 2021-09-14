@@ -1,8 +1,8 @@
 package com.company.practice;
 
 public class Pair<A, B> {
-    A first;
-    B second;
+    public A first;
+    public B second;
 
     public Pair(A first, B second)
     {

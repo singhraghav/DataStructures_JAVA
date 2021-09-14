@@ -85,15 +85,6 @@ public class Day11 {
         return;
     }
 
-    public int minimumTotal(List<List<Integer>> triangle) {
-
-    }
-    int mainHelper(int i, List<List<Integer>> triangle) {
-        if(i >= triangle.size())
-            return 0;
-        int curr = helper(i, triangle.get(i));
-        int choice1 = mainHelper(i+1)
-    }
     int helper(int i, List<Integer> row){
      int element = 0;
      if(row.size() > i)
