@@ -61,4 +61,30 @@ public class Traversal {
 
         return result;
     }
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        Queue<TreeNode> pip = new LinkedList<>();
+        List<List<Integer>> result = new LinkedList<>();
+        if(root == null)
+            return result;
+        else {
+            pip.add(root);
+
+            while(!pip.isEmpty()) {
+                int size = pip.size();
+                List<Integer> temp = new ArrayList<>(size);
+                for(int i =0; i < size; i++) {
+                    TreeNode curr = pip.remove();
+                    temp.add(curr.val);
+                    if(curr.left != null)
+                        pip.add(curr.left);
+                    if(curr.right != null)
+                        pip.add(curr.right);
+                }
+                result.add(temp);
+            }
+            return result;
+        }
+
+    }
 }
