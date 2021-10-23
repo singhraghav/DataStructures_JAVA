@@ -1,5 +1,7 @@
 package com.company.mygraphs.api;
 
+import com.company.practice.Pair;
+
 import java.util.*;
 
 public class LeetCodeGraph {
@@ -81,6 +83,40 @@ public class LeetCodeGraph {
                 graph.get(adj.val).neighbors.add(graph.get(currNode.val));
                 dfsClone(visited, graph, adj);
             }
+        }
+    }
+
+    public List<String> findItinerary(List<List<String>> tickets) {
+        Set<String> visited = new HashSet<>();
+        Map<String, PriorityQueue<String>> graph = new HashMap<>();
+
+        for(List<String> ticket: tickets) {
+            String from = ticket.get(0);
+            String to = ticket.get(1);
+
+            if(!graph.containsKey(from))
+                graph.put(from, new PriorityQueue<>());
+            if(!graph.containsKey(to))
+                graph.put(to, new PriorityQueue<>());
+            graph.get(from).add(to);
+        }
+
+        LinkedList<String> result = new LinkedList<>();
+        result.add("JFK");
+        dfsItinerary("JFK", result, visited, graph);
+        return result;
+    }
+
+    public void dfsItinerary(String source, LinkedList<String> result, Set<String> visited, Map<String, PriorityQueue<String>> graph) {
+        PriorityQueue<String> adj = graph.get(source);
+        for(String to: adj) {
+            String newPath = source + " " + to;
+            if(!visited.contains(newPath)){
+                result.add(to);
+                visited.add(newPath);
+                dfsItinerary(to, result, visited, graph);
+            }
+            break;
         }
     }
 }
